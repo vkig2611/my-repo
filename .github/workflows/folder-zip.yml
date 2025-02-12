@@ -1,0 +1,30 @@
+name: Zip vk Folder and Send to Slack
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  zip_and_send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Zip the vk folder
+        run: zip -r output.zip vk
+
+      - name: Share ZIP file to Slack
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          method: files.uploadV2
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          payload: |
+            channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
+            initial_comment: "📁 *output.zip* - Latest zipped folder from main branch"
+            file: "./output.zip"
+            filename: "output-${{ github.sha }}.zip"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
