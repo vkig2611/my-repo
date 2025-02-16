@@ -22,7 +22,7 @@ jobs:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           payload: |
             channel_id: ${{ secrets.SLACK_CHANNEL_ID }}
-            initial_comment: "📁 *output.zip* - Latest zipped folder from main branch"
+            initial_comment: "📁 *output.zip* - Latest API collection updated"
             file: "./output.zip"
             filename: "output-${{ github.sha }}.zip"
         env:
